@@ -20,7 +20,7 @@ const Header = () => {
   const cartItemCount = 0; 
 
   return (
-    <header className="bg-white shadow-md sticky top-0 z-50">
+    <header className="bg-black shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           
@@ -45,7 +45,7 @@ const Header = () => {
               <input
                 type="text"
                 placeholder="Buscar por número de parte, marca, modelo..."
-                className="w-full h-11 pl-12 pr-4 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all"
+                className="w-full h-11 pl-12 pr-4 rounded-full bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all"
               />
               <div className="absolute left-4 top-1/2 -translate-y-1/2">
                 <SearchIcon className="h-5 w-5 text-gray-400" />
@@ -55,12 +55,12 @@ const Header = () => {
 
           {/* Sección Derecha: Iconos de Usuario y Carrito */}
           <div className="flex items-center gap-4">
-            <Link href="/cuenta" className="text-gray-600 hover:text-red-600 transition-colors p-2 rounded-full hover:bg-gray-100">
+            <Link href="/cuenta" className="text-gray-300 hover:text-red-600 transition-colors p-2 rounded-full hover:bg-gray-100">
               <UserIcon className="h-7 w-7" />
               <span className="sr-only">Mi Cuenta</span>
             </Link>
             
-            <Link href="/carrito" className="relative text-gray-600 hover:text-red-600 transition-colors p-2 rounded-full hover:bg-gray-100">
+            <Link href="/carrito" className="relative text-gray-300 hover:text-red-600 transition-colors p-2 rounded-full hover:bg-gray-100">
               <CartIcon className="h-7 w-7" />
               <span className="sr-only">Carrito de Compras</span>
               {cartItemCount > 0 && (
