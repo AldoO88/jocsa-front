@@ -17,6 +17,12 @@ const InstagramIcon = (props: React.SVGProps<SVGSVGElement>) => (
     </svg>
 );
 
+const navLinksCategory = [
+  { href: '/categorias/frenos', label: 'Frenos' },
+  { href: '/categorias/suspension', label: 'Suspension y Dirección' },
+  { href: '/categorias/motor', label: 'Componentes de Motor' },
+  { href: '/categorias/filtros', label: 'Filtros y Fluidos' },
+];
 const Footer = () => {
   return (
     <footer className="bg-gray-900 text-gray-300">
@@ -41,10 +47,19 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold text-white mb-4 border-b-2 border-red-600 pb-2 inline-block">Categorías</h3>
             <ul className="space-y-2">
-              <li><Link href="/categorias/frenos" className="hover:text-red-500 transition-colors">Frenos</Link></li>
-              <li><Link href="/categorias/suspension" className="hover:text-red-500 transition-colors">Suspensión y Dirección</Link></li>
-              <li><Link href="/categorias/motor" className="hover:text-red-500 transition-colors">Componentes de Motor</Link></li>
-              <li><Link href="/categorias/filtros" className="hover:text-red-500 transition-colors">Filtros y Fluidos</Link></li>
+              {
+                navLinksCategory.map((link) => {
+                  return (
+                    <li key={link.href}>
+                      <Link
+                        href={link.href} 
+                        className="hover:text-red-500 transition-colors"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  )})
+              }
             </ul>
           </div>
 
@@ -61,17 +76,17 @@ const Footer = () => {
           
           {/* Columna 4: Redes Sociales y Contacto Directo */}
           <div>
-             <h3 className="text-lg font-semibold text-white mb-4 border-b-2 border-red-600 pb-2 inline-block">Síguenos</h3>
-             <div className="flex space-x-4 mb-4">
+            <h3 className="text-lg font-semibold text-white mb-4 border-b-2 border-red-600 pb-2 inline-block">Síguenos</h3>
+            <div className="flex space-x-4 mb-4">
                 <a href="#" aria-label="Facebook" className="text-gray-400 hover:text-white transition-colors">
                   <FacebookIcon className="h-6 w-6" />
                 </a>
                 <a href="#" aria-label="Instagram" className="text-gray-400 hover:text-white transition-colors">
                   <InstagramIcon className="h-6 w-6" />
                 </a>
-             </div>
-             <h3 className="text-lg font-semibold text-white mb-2 mt-4">Métodos de Pago</h3>
-             <p className="text-sm">Aceptamos todas las tarjetas de crédito y débito.</p>
+            </div>
+            <h3 className="text-lg font-semibold text-white mb-2 mt-4">Métodos de Pago</h3>
+            <p className="text-sm">Aceptamos todas las tarjetas de crédito y débito.</p>
              {/* Aquí podrías añadir iconos de Visa, Mastercard, etc. */}
           </div>
 

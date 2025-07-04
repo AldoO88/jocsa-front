@@ -6,10 +6,10 @@ import { usePathname } from "next/navigation";
 
 const navLinks = [
   { href: '/', label: 'Home' },
-  { href: 'categorias/perillas', label: 'Perillas' },
-  { href: 'categorias/biceras', label: 'Biceras' },
+  { href: '/productos', label: 'Productos' },
+  { href: '/descuentos', label: 'Descuentos' },
   { href: '/marcas', label: 'Marcas' },
-  { href: '/contacto', label: 'Contacto' }
+  { href: '/contacto', label: 'Contacto' },
 ];
 
 const Navbar = () => {
