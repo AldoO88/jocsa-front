@@ -33,7 +33,7 @@ const Navbar = () => {
                       {link.label}
                   </Link>
                 );
-              })};
+              })}
           </div>
           <div className="md:hidden flex items-center"> 
             <button

@@ -2,6 +2,7 @@
 import React from 'react';
 
 // Definimos las props que aceptará nuestro icono
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 interface IconProps extends React.SVGProps<SVGSVGElement> {
   // Aquí podríamos añadir más props personalizadas si fuera necesario, como 'size'
 }

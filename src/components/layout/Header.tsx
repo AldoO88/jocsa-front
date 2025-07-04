@@ -7,14 +7,6 @@ import Link from 'next/link';
 import logo from '@/assets/images/logo.png'; // Importamos la imagen del logo
 import { SearchIcon, UserIcon, CartIcon } from '@/components/ui/Icon'; // Importamos nuestros iconos
 
-// Definimos la paleta de colores basada en tu logo
-const colors = {
-  primary: '#D9232D', // Rojo del logo
-  dark: '#1A1A1A',     // Un negro/gris oscuro para el texto
-  light: '#FFFFFF',    // Blanco
-  gray: '#F0F0F0',     // Un gris claro para fondos
-};
-
 const Header = () => {
   // Número de items en el carrito (simulado por ahora)
   const cartItemCount = 0; 
