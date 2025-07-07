@@ -96,7 +96,7 @@ const Footer = () => {
       {/* --- Sub-Footer con Copyright --- */}
       <div className="bg-black py-4">
         <div className="container mx-auto px-4 text-center text-sm text-gray-500">
-          &copy; {new Date().getFullYear()} JOCSA Auto Partes. Todos los derechos reservados. Sitio desarrollado por [Ing. Aldo Omar González Juárez/GMsistemas].
+          &copy; {new Date().getFullYear()} JOCSA Auto Partes. Todos los derechos reservados. Sitio desarrollado por Ing. Aldo Omar González Juárez / GMsistemas.
         </div>
       </div>
     </footer>

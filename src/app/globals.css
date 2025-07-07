@@ -38,3 +38,47 @@ body {
   min-width: 0;
   position: relative;
 }
+
+/* src/app/globals.css */
+
+/* ... tus otros estilos ... */
+
+/* Estilos para el carrusel de PRODUCTOS */
+.embla--product {
+  overflow: hidden;
+}
+
+.embla__container--product {
+  display: flex;
+  /* Espacio inicial antes del primer slide */
+  margin-left: -1rem;
+}
+
+.embla__slide--product {
+  /* Espaciado entre slides */
+  padding-left: 1rem;
+  min-width: 0;
+  position: relative;
+
+  /* --- Ancho de los slides por tamaño de pantalla --- */
+  /* Mobile: Muestra 1 card y un poco de la siguiente */
+  flex: 0 0 80%;
+}
+
+@media (min-width: 640px) { /* sm */
+  .embla__slide--product {
+    flex: 0 0 50%; /* 2 cards */
+  }
+}
+
+@media (min-width: 768px) { /* md */
+  .embla__slide--product {
+    flex: 0 0 33.3333%; /* 3 cards */
+  }
+}
+
+@media (min-width: 1024px) { /* lg */
+  .embla__slide--product {
+    flex: 0 0 25%; /* 4 cards */
+  }
+}
