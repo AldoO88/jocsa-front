@@ -9,7 +9,7 @@ import { SearchIcon, UserIcon, CartIcon } from '@/components/ui/Icon'; // Import
 
 const Header = () => {
   // Número de items en el carrito (simulado por ahora)
-  const cartItemCount = 0; 
+  const cartItemCount = 1; 
 
   return (
     <header className="bg-black shadow-md sticky top-0 z-50">
@@ -47,7 +47,7 @@ const Header = () => {
 
           {/* Sección Derecha: Iconos de Usuario y Carrito */}
           <div className="flex items-center gap-4">
-            <Link href="/cuenta" className="text-gray-300 hover:text-red-600 transition-colors p-2 rounded-full hover:bg-gray-100">
+            <Link href="/auth/login" className="text-gray-300 hover:text-red-600 transition-colors p-2 rounded-full hover:bg-gray-100">
               <UserIcon className="h-7 w-7" />
               <span className="sr-only">Mi Cuenta</span>
             </Link>

@@ -13,3 +13,22 @@ export interface Product {
   isFeatured?: boolean;
   isBestseller?: boolean;
 }
+
+// src/types/index.ts
+
+// ... tus otras interfaces ...
+
+export interface LoginCredentials {
+  email: string;
+  password: string;
+}
+
+export interface SignupData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  password: string;
+  confirmPassword: string;
+  // ... cualquier otro campo necesario para el registro
+}
