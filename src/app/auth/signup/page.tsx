@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import authService from '@/services/authService'; // Reutilizamos nuestro servicio
+import { useAuthForm } from '@/hooks/useAuthForm';
 
 // Icono para el formulario de registro
 const SignupIcon = () => (
@@ -26,38 +27,23 @@ const initSignupForm = {
 export default function SignupPage() {
     const router = useRouter();
 
-    const [signupForm, setSignupForm] = useState(initSignupForm);
+    const {
+        formData,
+        apiError,
+        isLoading,
+        handleChange,
+        handleSubmit,
+    } = useAuthForm(
+        initSignupForm, // Estado inicial diferente                                     // Validación diferente
+        (data) => authService.signup(data)                        // Acción diferente
+    );
 
-    const [error, setError] = useState<string | null>(null);
-    const [isLoading, setIsLoading] = useState(false);
-
-    const handleSignupForm = (nameField: any, value: any) => {
-        setSignupForm(prevState => ({ ...prevState, [nameField]: value }));
-    }
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setError(null);
-        setIsLoading(true);
-
-        //const formData = { firstName, lastName, email, password, confirmPassword };
-
-        try {
-            // Llamamos al método `signup` de nuestro servicio
-            await authService.signup(signupForm);
-
-            // Si el registro es exitoso, redireccionamos al usuario a la página de login
-            // para que inicie sesión con su nueva cuenta.
-            router.push('/auth/login');
-
-        } catch (err: any) {
-            const errorMessage = err.response?.data?.message || 'No se pudo crear la cuenta.';
-            setError(errorMessage);
-        } finally {
-            setIsLoading(false);
+    const onFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        const result = await handleSubmit(e);
+        if (result) {
+            router.push('/login?success=true');
         }
     };
-
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-50 px-4 py-12">
             <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8 space-y-6">
@@ -68,7 +54,7 @@ export default function SignupPage() {
                     <p className="text-gray-600">Únete y encuentra las mejores refacciones.</p>
                 </div>
 
-                <form className="space-y-4" onSubmit={handleSubmit}>
+                <form className="space-y-4" onSubmit={onFormSubmit}>
                     {/* Campo de Nombre */}
                     <div>
                         <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
@@ -80,8 +66,8 @@ export default function SignupPage() {
                             type="text"
                             autoComplete="given-name"
                             required
-                            value={signupForm.firstName}
-                            onChange={(e) => handleSignupForm('firstName', e.target.value)}
+                            value={formData.firstName}
+                            onChange={handleChange}
                             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500"
                         />
                     </div>
@@ -97,8 +83,8 @@ export default function SignupPage() {
                             type="text"
                             autoComplete="family-name"
                             required
-                            value={signupForm.lastName}
-                            onChange={(e) => handleSignupForm('lastName', e.target.value)}
+                            value={formData.lastName}
+                            onChange={handleChange}
                             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500"
                         />
                     </div>
@@ -108,30 +94,29 @@ export default function SignupPage() {
                         <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                             Correo Electrónico
                         </label>
-                        <input id="email" name="email" type="email" required value={signupForm.email} onChange={(e) => handleSignupForm('email', e.target.value)} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500" />
+                        <input id="email" name="email" type="email" required value={formData.email} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500" />
                     </div>
                     <div>
                         <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
                             Télefono
                         </label>
-                        <input id="phone" name="phone" type="phone" required value={signupForm.phone} onChange={(e) => handleSignupForm('phone', e.target.value)} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500" />
+                        <input id="phone" name="phone" type="phone" required value={formData.phone} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500" />
                     </div>
                     <div>
                         <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                             Contraseña
                         </label>
-                        <input id="password" name="password" type="password" required value={signupForm.password} onChange={(e) => handleSignupForm('password', e.target.value)} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500" />
+                        <input id="password" name="password" type="password" required value={formData.password} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500" />
                     </div>
                     <div>
                         <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
                             Confirmar Contraseña
                         </label>
-                        <input id="confirmPassword" name="confirmPassword" type="password" required value={signupForm.confirmPassword} onChange={(e) => handleSignupForm('confirmPassword', e.target.value)} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500" />
+                        <input id="confirmPassword" name="confirmPassword" type="password" required value={formData.confirmPassword} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500" />
                     </div>
-                    
-                    {error && (
+                    {apiError && (
                         <div className="p-3 bg-red-100 border border-red-300 text-red-800 rounded-md text-sm">
-                            {error}
+                            {apiError}
                         </div>
                     )}
                     
@@ -147,8 +132,9 @@ export default function SignupPage() {
                 </form>
 
                 <div className="text-sm text-center">
+                    <span>¿Ya tienes una cuenta? </span>
                     <Link href="/auth/login" className="font-medium text-red-600 hover:text-red-500">
-                        ¿Ya tienes una cuenta? Inicia sesión
+                        Inicia sesión
                     </Link>
                 </div>
             </div>
