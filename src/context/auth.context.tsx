@@ -1,95 +1,93 @@
 // src/context/auth.context.tsx
 "use client";
 
-import React, { useState, useEffect, createContext, useContext } from 'react';
+import React, { useState, useEffect, createContext, useContext, use } from 'react';
 import authService from '@/services/authService';
-import { IUser } from '@/types'; // Asumiendo que tienes una interfaz IUser
+import { IUser, LoginCredentials } from '@/types'; // Asumiendo que tienes una interfaz IUser
+import { useRouter } from 'next/navigation'; // Importamos la función useRouter de Next.js para redirecciones de navegación rápidas y eficientes que funcionan en componentes de cliente
+import Cookies from 'js-cookie';
 
 // 1. Definimos la forma de nuestro contexto
 interface AuthContextType {
   isLoggedIn: boolean;
   isLoading: boolean;
   user: IUser | null;
-  storeToken: (token: string) => void;
-  authenticateUser: () => Promise<void>;
-  logoutUser: () => void;
+  loginUser: (credentials: LoginCredentials) => Promise<void>; // Método para iniciar sesión del usuario en la API de Next.js y almacenar el token en localStorage
+  logoutUser: () => void; // Método para cerrar sesión del usuario y eliminar el token de localStorage, el void indica que no retorna nada
 }
 
 // 2. Creamos el contexto con un valor inicial
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 // 3. Creamos el componente Proveedor
-function AuthProvider({ children }: { children: React.ReactNode }) {
+export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // Empieza en true para verificar el token al cargar
   const [user, setUser] = useState<IUser | null>(null);
-
-  const storeToken = (token: string) => {
-    localStorage.setItem('authToken', token);
-  };
-
-  const authenticateUser = async () => {
-    const storedToken = localStorage.getItem('authToken');
-
-    if (!storedToken) {
-      // Si no hay token, terminamos la carga y el usuario no está logueado
-      setIsLoading(false);
-      setIsLoggedIn(false);
-      setUser(null);
-      return;
-    }
-
-    try {
-      const userData = await authService.verify(); // El interceptor ya añade el token
-      // Si la verificación es exitosa:
-      setIsLoggedIn(true);
-      setUser(userData.data);
-    } catch (error) {
-      // Si el token es inválido o hay un error
-      // console.error("CONTEXTO: La verificación del token falló.", error);:
-      setIsLoggedIn(false);
-      setUser(null);
-      localStorage.removeItem('authToken'); // Limpiamos el token inválido
-    } finally {
-      // En cualquier caso, la carga inicial ha terminado
-      setIsLoading(false);
-    }
-  };
-
-  const logoutUser = () => {
-    localStorage.removeItem('authToken');
-    // Actualizamos el estado para reflejar que el usuario ha cerrado sesión
-    authenticateUser();
-  };
+  const router = useRouter();
 
   useEffect(() => {
-    // Verificamos si el usuario ya tiene una sesión válida al cargar la aplicación
-    authenticateUser();
-  }, []);
+    const authenticateUser = async () => {
+      const storedToken = Cookies.get('authToken'); // Obtenemos el token almacenado en localStorage
 
-  const contextValue = {
-    isLoggedIn,
-    isLoading,
-    user,
-    storeToken,
-    authenticateUser,
-    logoutUser,
+      if(!storedToken) { // Si no existe el token, no autenticamos el usuario
+        setIsLoading(false); // Terminamos de cargar el estado de carga
+        setIsLoggedIn(false); // Nos autenticamos como no autenticado y eliminamos el usuario actual
+        setUser(null); // Nos autenticamos como no autenticado y eliminamos el usuario actual
+        return; // Salimos de la función
+      }
+      try {
+        const response = await authService.verify(); // Verificamos el token
+        setUser(response.data.user); // Si el token es válido, establecemos el usuario actual
+        setIsLoggedIn(true); // Si el token es válido, establecemos el usuario actual
+      } catch (error) {
+        Cookies.remove('authToken'); // Si el token no es válido, lo eliminamos
+        setIsLoggedIn(false); // Si el token no es válido, lo eliminamos
+        setUser(null); // Si el token no es válido, lo eliminamos
+      }finally {
+        setIsLoading(false); // Terminamos de cargar el estado de carga
+      }
+    };
+    authenticateUser();
+  },[])
+
+  // Función para iniciar sesión del usuario en la API de Next.js y almacenar el token en localStorage
+  const loginUser = async (credentials: LoginCredentials) => { 
+    try {
+      const response = await authService.login(credentials);// Envíamos el formulario de login a la API de Next.js
+      Cookies.set('authToken', response.data.token, { expires: 1/24 }) // Almacenamos el token en localStorage, expirando en 1 hora
+      setUser(response.data.user); // Establecemos el usuario actual en el contexto
+      setIsLoggedIn(true); // Establecemos el estado de autenticación en true
+      router.push('/'); // Redireccionamos al usuario a la página de inicio
+    } catch (error) {
+      console.error(error); // Si hay un error, mostramos el error en la consola
+      throw error; // Lanzamos el error para que pueda ser manejado por el componente que llama a esta función
+    }
   };
 
-  return (
-    <AuthContext.Provider value={contextValue}>
-      {children}
-    </AuthContext.Provider>
-  );
-}
+  // Función para cerrar sesión del usuario y eliminar el token de localStorage
+  const logoutUser = () => {
+    Cookies.remove('authToken'); // Eliminamos el token de localStorage
+    setIsLoggedIn(false); // Eliminamos el estado de autenticación
+    setUser(null); // Eliminamos el usuario actual
+    router.push('/login'); // Redireccionamos al usuario a la página de inicio
+  };
 
+  const contextValue = { isLoggedIn, isLoading, user, loginUser, logoutUser }; // Creamos un objeto con los valores del contexto
+
+  return (
+    <AuthContext.Provider value={contextValue}> {/* Proveemos el contexto a los componentes hijos */}
+      {!isLoading && children} {/* Renderizamos los hijos solo cuando no estamos cargando */}
+    </AuthContext.Provider>
+
+  )
+}
+  
 // 4. Creamos un hook personalizado para usar el contexto fácilmente
 export const useAuth = (): AuthContextType => {
-  const context = useContext(AuthContext);
-  if (!context) {
+  const context = useContext(AuthContext); // Usamos el contexto para obtener el valor del contexto
+  if (!context) { // Si el contexto no existe, lanzamos un error
     throw new Error('useAuth debe ser usado dentro de un AuthProvider');
   }
   return context;
 };
-
-export { AuthProvider };

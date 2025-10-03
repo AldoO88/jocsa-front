@@ -1,6 +1,6 @@
 // src/services/authService.ts
 import api from './index'; // Importamos la instancia configurada de axios
-import { LoginCredentials, SignupData } from '@/types'; // Importamos los tipos necesarios
+import { LoginCredentials, SignupData, IUser } from '@/types'; // Importamos los tipos necesarios
 
 // Creamos un objeto que agrupa todos los endpoints de autenticación
 const authService = {
@@ -12,7 +12,7 @@ const authService = {
 
   // Endpoint para verificar la validez de un token
   // El token se adjuntará automáticamente gracias al interceptor en `index.ts`
-  verify: () => api.get('/auth/verify'),
+  verify: () => api.get<{ user: IUser }>('/auth/verify'),
 };
 
 export default authService;

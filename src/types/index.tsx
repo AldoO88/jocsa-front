@@ -58,6 +58,7 @@ export interface UpdateUserPasswordParams {
   confirmNewPassword: string;
 }
 export interface FiscalData {
+  urlConstancia?: string; // URL del PDF de la constancia
   razonSocial: string;
   rfc: string;
   regimenFiscal: string;

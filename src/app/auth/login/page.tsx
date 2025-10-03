@@ -2,10 +2,8 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import authService from "@/services/authService"; // <-- 1. Importamos nuestra nueva función
 import { useAuth } from "@/context/auth.context";
-import { useAuthForm } from "@/hooks/useAuthForm";
+import { useState } from "react";
 
 const LoginIcon = () => (
   <svg
@@ -24,28 +22,25 @@ const LoginIcon = () => (
 );
 
 export default function LoginPage() {
-    const router = useRouter();
-    const { storeToken, authenticateUser } = useAuth();
+    const { loginUser } = useAuth(); // Usamos el hook de autenticación para obtener el estado de la autenticación
 
-const {
-        formData,
-        apiError,
-        isLoading,
-        handleChange,
-        handleSubmit,
-    } = useAuthForm(
-        { email: '', password: '' },      // Estado inicial
-        (data) => authService.login(data) // Acción de envío (ya no hay función de validación)
-    );
+    const [email, setEmail] = useState(''); // Estado para el campo de correo electrónico
+    const [password, setPassword] = useState(''); // Estado para el campo de contraseña
+    const [isLoading, setIsLoading] = useState(false); // Estado para indicar si se está cargando
+    const [apiError, setApiError] = useState<string | null>(null); // Estado para mostrar un error de la API si hay alguno
 
-    const onFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        const result = await handleSubmit(e);
-        if (result) {
-            storeToken(result.data.authToken);
-            await authenticateUser();
-            router.push('/');
-        }
-    };
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault(); // Prevenimos el comportamiento por defecto del formulario
+      setApiError(null); // Limpiamos el error de la API
+      setIsLoading(true); // Iniciamos el estado de carga
+      try {
+        await loginUser({ email, password }); // Envíamos el formulario de login a la API de Next.js
+      } catch (error: any) { // Si hay un error, mostramos el error en la consola
+        setApiError(error.response?.data?.message || 'Correo o contraseña incorrectos'); // Mostramos el error de la API si hay alguno
+      } finally {
+        setIsLoading(false); // Terminamos de cargar el estado de carga
+      }
+    }
 
   // ...
 
@@ -60,7 +55,7 @@ const {
           <p className="text-gray-600">Bienvenido a JOCSA Auto Partes</p>
         </div>
 
-        <form className="space-y-6" onSubmit={onFormSubmit}>
+        <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
             <label
               htmlFor="email"
@@ -73,8 +68,8 @@ const {
               type="email"
               autoComplete="email"
               required
-              value={formData.email}
-              onChange={handleChange}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-red-500 focus:border-red-500"
             />
           </div>
@@ -91,8 +86,8 @@ const {
               type="password"
               autoComplete="current-password"
               required
-              value={formData.password}
-              onChange={handleChange}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-red-500 focus:border-red-500"
             />
           </div>

@@ -30,9 +30,9 @@ export function useUploader(initialPreview: string | null = null) {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fileService.uploadImage(file, entityId, context);
+      const response = await fileService.uploadFile(file, entityId, context);
       setFile(null); // Limpiar el archivo después de subirlo
-      return response.data.imageUrl;
+      return response.data.documentUrl;
     } catch (err: any) {
       setError(err.response?.data?.message || 'Error al subir el archivo.');
       return null;

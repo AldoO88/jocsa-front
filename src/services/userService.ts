@@ -1,5 +1,5 @@
 import api from './index';
-import { UpdateUserParams, UpdateUserPasswordParams } from '@/types';
+import { UpdateUserParams, UpdateUserPasswordParams, FiscalData } from '@/types';
 
 const userService = {
 
@@ -20,6 +20,10 @@ const userService = {
 
   updatePassword: (userId: string, userData: Partial<UpdateUserPasswordParams>) => {
     return api.put(`api/users/updatePassword/${userId}`, userData);
+  },
+
+  updateFiscalData: (userId: string, fiscalData: Partial<FiscalData>) => {
+    return api.put(`api/users/updateFiscalData/${userId}`, fiscalData);
   },
 };
 
