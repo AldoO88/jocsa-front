@@ -8,6 +8,7 @@ export function useChangePassword() {
 
   console.log('useChangePassword hook initialized');
   const [formDataPassword, setFormDataPassword] = useState({ 
+    action: 'changePassword',
     currentPassword: '', 
     newPassword: '', 
     confirmNewPassword: '' 
@@ -36,7 +37,7 @@ export function useChangePassword() {
       // Asumo que tienes un servicio `updatePassword`
       await userService.updatePassword(userId, formDataPassword);
       setStatusPassword({ message: '¡Contraseña actualizada con éxito!', type: 'success' });
-      setFormDataPassword({ currentPassword: '', newPassword: '', confirmNewPassword: '' }); // Limpia el formulario
+      setFormDataPassword({ action: 'changePassword', currentPassword: '', newPassword: '', confirmNewPassword: '' }); // Limpia el formulario
     } catch (error: any) {
       setStatusPassword({ message: error.response?.data?.message || 'Error al cambiar la contraseña.', type: 'error' });
     } finally {
@@ -44,11 +45,18 @@ export function useChangePassword() {
     }
   };
 
+  const hasChanges =
+    formDataPassword.currentPassword !== '' ||
+    formDataPassword.newPassword !== '' ||
+    formDataPassword.confirmNewPassword !== '';
+
   return {
     formDataPassword,
     isLoadingPassword,
     statusPassword,
     handleChangePassword,
     handleSubmitPassword,
+    hasChanges,
+    setStatusPassword,
   };
 }

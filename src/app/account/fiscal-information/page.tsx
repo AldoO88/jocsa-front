@@ -3,9 +3,11 @@
 
 import { UploadCloud, FileText } from 'lucide-react'; 
 import { useFiscalInfo } from '@/hooks/useFiscalInfo';
+import { useProtectedRoute } from '@/hooks/useProtectedRoute';
 
 
 export default function FiscalInfoPage() {
+  useProtectedRoute();
   const {
     formData, setFormData, savedPdfUrl, selectedFile,
     isLoading, isProcessingOcr, status,

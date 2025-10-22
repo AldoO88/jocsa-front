@@ -1,9 +1,11 @@
 // src/app/cuenta/documentos/page.tsx
 "use client";
 
+import { useProtectedRoute } from "@/hooks/useProtectedRoute";
 import { useState } from "react";
 
 export default function DocumentsPage() {
+  useProtectedRoute();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploadedFiles, setUploadedFiles] = useState([
     // Datos de ejemplo

@@ -4,6 +4,7 @@
 import Link from "next/link";
 import { useAuth } from "@/context/auth.context";
 import { useState } from "react";
+import { useAuthForm } from "@/hooks/useAuthForm";
 
 const LoginIcon = () => (
   <svg
@@ -24,23 +25,16 @@ const LoginIcon = () => (
 export default function LoginPage() {
     const { loginUser } = useAuth(); // Usamos el hook de autenticación para obtener el estado de la autenticación
 
-    const [email, setEmail] = useState(''); // Estado para el campo de correo electrónico
-    const [password, setPassword] = useState(''); // Estado para el campo de contraseña
-    const [isLoading, setIsLoading] = useState(false); // Estado para indicar si se está cargando
-    const [apiError, setApiError] = useState<string | null>(null); // Estado para mostrar un error de la API si hay alguno
-
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault(); // Prevenimos el comportamiento por defecto del formulario
-      setApiError(null); // Limpiamos el error de la API
-      setIsLoading(true); // Iniciamos el estado de carga
-      try {
-        await loginUser({ email, password }); // Envíamos el formulario de login a la API de Next.js
-      } catch (error: any) { // Si hay un error, mostramos el error en la consola
-        setApiError(error.response?.data?.message || 'Correo o contraseña incorrectos'); // Mostramos el error de la API si hay alguno
-      } finally {
-        setIsLoading(false); // Terminamos de cargar el estado de carga
-      }
-    }
+    const {
+      formData,
+      apiError,
+      isLoading,
+      handleChange,
+      handleSubmit,
+    } = useAuthForm(
+      { email: '', password: '' }, // Estado inicial
+      loginUser // Acción de envío (debe aceptar un objeto { email, password })
+    );
 
   // ...
 
@@ -68,8 +62,8 @@ export default function LoginPage() {
               type="email"
               autoComplete="email"
               required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={formData.email}
+              onChange={handleChange}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-red-500 focus:border-red-500"
             />
           </div>
@@ -86,8 +80,8 @@ export default function LoginPage() {
               type="password"
               autoComplete="current-password"
               required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={formData.password}
+              onChange={handleChange}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-red-500 focus:border-red-500"
             />
           </div>

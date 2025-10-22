@@ -1,5 +1,5 @@
 //src/lib/middleware/jwt.middleware.ts
-import { NextApiRequest, NextApiResponse, NextHandler } from 'next';
+import { NextApiRequest, NextApiResponse, NextApiHandler } from 'next';
 import jwt from 'jsonwebtoken';
 
 interface AuthenticatedRequest extends NextApiRequest {
@@ -10,7 +10,7 @@ interface AuthenticatedRequest extends NextApiRequest {
 }
 
 // Middleware para verificar el token JWT en las solicitudes entrantes (requests) y extraer el usuario del token
-export const jwtMiddleware = (handler: NextHandler) => {
+export const jwtMiddleware = (handler: NextApiHandler) => {
   return async (req: AuthenticatedRequest, res: NextApiResponse) => { // Retornamos una función async
     try {
       const authHeader = req.headers.authorization; // Obtenemos la cabecera de autorización

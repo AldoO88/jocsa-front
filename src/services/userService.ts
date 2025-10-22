@@ -8,7 +8,7 @@ const userService = {
    * @param userId - El ID del usuario.
    */
   getProfile: (userId: string) => 
-    api.get(`api/users/getUserById/${userId}`),
+    api.get(`/users/${userId}`),
 
   /**
    * Actualiza los datos de texto del perfil de un usuario.
@@ -16,14 +16,14 @@ const userService = {
    * @param userData - Los datos a actualizar.
    */
   updateProfile: (userId: string, userData: Partial<UpdateUserParams>) => 
-    api.put(`api/users/updateProfile/${userId}`, userData),
+    api.put(`/users/${userId}`, userData),
 
   updatePassword: (userId: string, userData: Partial<UpdateUserPasswordParams>) => {
-    return api.put(`api/users/updatePassword/${userId}`, userData);
+    return api.put(`/users/${userId}`, userData);
   },
 
-  updateFiscalData: (userId: string, fiscalData: Partial<FiscalData>) => {
-    return api.put(`api/users/updateFiscalData/${userId}`, fiscalData);
+  updateFiscalData: (userId: string, fiscalData: Partial<FiscalData> ) => { // Cambiado a Partial<FiscalData> para permitir actualizaciones parciales
+    return api.put(`/users/${userId}`, fiscalData);
   },
 };
 

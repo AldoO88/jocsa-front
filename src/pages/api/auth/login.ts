@@ -23,14 +23,14 @@ const handler: NextApiHandler = async (req, res) =>{
         if(!isPasswordValid) return res.status(401).json({ message: 'Invalid password' }); // Si la contraseña no es válida, devolvemos un error 401 (No autorizado)
 
         const token = jwt.sign(
-            { userId: user._id, email: user.email },
+            { userId: user._id.toString(), email: user.email },
             process.env.JWT_SECRET!,
             { expiresIn: '1h' } 
         ); // Generamos un token JWT con el ID y el email del usuario, utilizando una clave secreta y estableciendo una expiración de 1 hora
 
         const { password: _, ...userData } = user.toObject(); // Excluimos la contraseña del objeto de usuario que vamos a devolver
-        
-        res.status(200).json({ token, user: userData }); // Devolvemos el token y los datos del usuario (sin la contraseña)
+        const userToSend = { ...userData, userId: userData._id, _id: undefined }; // Mapea _id a userId y opcionalmente elimina _id
+        res.status(200).json({ token, user: userToSend }); // Devolvemos el token y los datos del usuario (sin la contraseña)
     }catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' }); // Si hay un error en el servidor, devolvemos un error 500 (Error interno del servidor)

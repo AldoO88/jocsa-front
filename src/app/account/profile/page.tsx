@@ -5,6 +5,8 @@ import Image from 'next/image';
 import { useProfile } from '@/hooks/useProfile';
 import { useChangePassword } from '@/hooks/useUpdatePassword';
 import { useUploader } from '@/hooks/useUploader';
+import { useProtectedRoute } from '@/hooks/useProtectedRoute';
+import { useEffect, useRef, useState } from 'react';
 
 const ProfileSection = ({ title, children }: { title: string, children: React.ReactNode }) => (
   <div className="pt-6">
@@ -14,52 +16,100 @@ const ProfileSection = ({ title, children }: { title: string, children: React.Re
 );
 
 export default function ProfilePage() {
+  useProtectedRoute();
 
   const {
     user,
     isAuthLoading,
     formData,
+    originalData,
     isLoading,
     status,
     handleChange,
     handleSubmit,
+    hasChanges,
+    setStatus,
   } = useProfile();
 
+  console.log('ProfilePage render', { user, formData });
   const { 
     formDataPassword, 
     isLoadingPassword, 
     statusPassword, 
     handleChangePassword, 
     handleSubmitPassword, 
+    hasChanges: hasPasswordChanges,
+    setStatusPassword
   } = useChangePassword();
 
-  const uploader = useUploader(user?.imageUrl || null);
+  const [initialPreview] = useState(() => user?.imageUrl || null);
+  const uploader = useUploader(initialPreview);
+
+  // Limpiar mensaje de éxito o error del perfil
+  useEffect(() => {
+    if (status.message) {
+      const timer = setTimeout(() => {
+        setStatus({ message: '', type: '' });
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [status, setStatus]);
+
+  // Limpiar error del uploader
+  useEffect(() => {
+    if (uploader.error) {
+      const timer = setTimeout(() => {
+        uploader.setError(null);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [uploader?.error, uploader?.setError]);
+
+  // Limpiar mensaje de éxito o error del cambio de contraseña
+  useEffect(() => {
+    if (statusPassword.message) {
+      const timer = setTimeout(() => {
+        setStatusPassword({ message: '', type: '' });
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [statusPassword, setStatusPassword]);
+
+  
 
   const handleProfileSave = async (e: React.FormEvent<HTMLFormElement>) => {
+    console.log('handleProfileSave triggered');
+    console.log('User ID:', user?.userId);
     e.preventDefault();
-    if (!user?.userId) return;
+    
+    if (!user?.userId && !user?._id) return;
+
+    const userId = user.userId || user._id;
 
     let finalImageUrl = user.imageUrl;
 
     // 1. Si hay un archivo nuevo, lo subimos primero
-    if (uploader.file) {
-      const newUrl = await uploader.upload(user.userId, 'profile');
+    if (uploader.uploadedFile) {
+      const newUrl = await uploader.upload(userId, 'profile');
       if (newUrl) {
         finalImageUrl = newUrl;
       }
     }
 
     // 2. Luego, actualizamos el perfil con los datos de texto y la URL final
-    await handleSubmit(e, finalImageUrl);
+    await handleSubmit(undefined, finalImageUrl, userId);
+    // 3. Finalmente, limpiamos el estado del uploader
+    uploader.setUploadedFile(null);
+    uploader.setPreview(null);
   };
 
   const onPasswordSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     if (user) {
-      handleSubmitPassword(e, user.userId);
+      handleSubmitPassword(e, user.userId || user._id);
     }
 
   }
-  if (isAuthLoading) return <p>Cargando...</p>;
+  if (isAuthLoading || !uploader) return <p>Cargando...</p>;
   if (!user) return null;
 
   return (
@@ -72,6 +122,12 @@ export default function ProfilePage() {
           status.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
         }`}>
           {status.message}
+        </div>
+      )}
+
+      {uploader.error && (
+        <div className="mt-4 p-3 rounded-md text-sm font-medium bg-red-100 text-red-800">
+          {uploader.error}
         </div>
       )}
 
@@ -98,28 +154,50 @@ export default function ProfilePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">Nombre(s)</label>
-              <input id="firstName" name="firstName" value={formData.firstName} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500"/>
+              <input 
+                id="firstName" 
+                name="firstName" 
+                value={formData.firstName} 
+                onChange={handleChange}
+                disabled={isLoading} 
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500"/>
             </div>
             <div>
               <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">Apellidos</label>
-              <input id="lastName" name="lastName" value={formData.lastName} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500"/>
+              <input 
+                id="lastName" 
+                name="lastName" 
+                value={formData.lastName} 
+                onChange={handleChange}
+                disabled={isLoading}  
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500"/>
             </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">Correo Electrónico</label>
-              <input id="email" value={user.email} disabled className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 text-gray-500"/>
+              <input 
+                id="email" 
+                value={user.email} 
+                disabled 
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 text-gray-500"/>
             </div>
             <div >
               <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Teléfono</label>
-              <input id="phone" name="phone" value={formData.phone} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500"/>
+              <input 
+                id="phone" 
+                name="phone" 
+                value={formData.phone} 
+                onChange={handleChange} 
+                disabled={isLoading} 
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500"/>
             </div>
           </div>  
         </ProfileSection>
         
         <div className="mt-2 pt-4 flex justify-start">
           <button type="submit" 
-          disabled={isLoading} className="cursor-pointer bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed">
+          disabled={isLoading || (!hasChanges && !uploader.uploadedFile)} className="cursor-pointer bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed">
             {isLoading ? 'Guardando...' : 'Guardar Cambios'}
           </button>
         </div>
@@ -151,7 +229,7 @@ export default function ProfilePage() {
           <button 
           name='changePassword' 
           type="submit" 
-          disabled={isLoadingPassword} 
+          disabled={isLoadingPassword || !hasPasswordChanges} 
           className="cursor-pointer mt-2 bg-gray-800 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-lg transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed">
             {isLoadingPassword ? 'Cambiando...' : 'Cambiar Contraseña'}
           </button>

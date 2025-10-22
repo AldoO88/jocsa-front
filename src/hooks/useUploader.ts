@@ -3,9 +3,11 @@
 
 import { useState, ChangeEvent } from 'react';
 import fileService from '@/services/fileService';
+import { set } from 'mongoose';
 
 export function useUploader(initialPreview: string | null = null) {
-  const [file, setFile] = useState<File | null>(null);
+  console.log('useUploader initialized with preview:', initialPreview);
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(initialPreview);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -13,7 +15,7 @@ export function useUploader(initialPreview: string | null = null) {
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const selectedFile = e.target.files[0];
-      setFile(selectedFile);
+      setUploadedFile(selectedFile);
       setPreview(URL.createObjectURL(selectedFile));
     }
   };
@@ -25,13 +27,14 @@ export function useUploader(initialPreview: string | null = null) {
    * @returns La URL de la imagen subida.
    */
   const upload = async (entityId: string, context: string): Promise<string | null> => {
-    if (!file) return null;
+    console.log('upload triggered with entityId:', entityId, 'and context:', context);
+    if (!uploadedFile) return null;
 
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fileService.uploadFile(file, entityId, context);
-      setFile(null); // Limpiar el archivo después de subirlo
+      const response = await fileService.uploadFile(uploadedFile, entityId, context);
+      setUploadedFile(null); // Limpiar el archivo después de subirlo
       return response.data.documentUrl;
     } catch (err: any) {
       setError(err.response?.data?.message || 'Error al subir el archivo.');
@@ -42,11 +45,14 @@ export function useUploader(initialPreview: string | null = null) {
   };
 
   return {
-    file,
+    uploadedFile,
     preview,
     isLoading,
     error,
     handleFileChange,
     upload,
+    setUploadedFile,
+    setPreview,
+    setError,
   };
 }

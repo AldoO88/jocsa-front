@@ -14,6 +14,7 @@ interface AuthContextType {
   user: IUser | null;
   loginUser: (credentials: LoginCredentials) => Promise<void>; // Método para iniciar sesión del usuario en la API de Next.js y almacenar el token en localStorage
   logoutUser: () => void; // Método para cerrar sesión del usuario y eliminar el token de localStorage, el void indica que no retorna nada
+  authenticateUser: () => Promise<void>; // Método para verificar el token almacenado en localStorage y obtener los datos del usuario actual
 }
 
 // 2. Creamos el contexto con un valor inicial
@@ -26,8 +27,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<IUser | null>(null);
   const router = useRouter();
 
-  useEffect(() => {
-    const authenticateUser = async () => {
+  const authenticateUser = async () => {
       const storedToken = Cookies.get('authToken'); // Obtenemos el token almacenado en localStorage
 
       if(!storedToken) { // Si no existe el token, no autenticamos el usuario
@@ -48,6 +48,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setIsLoading(false); // Terminamos de cargar el estado de carga
       }
     };
+
+  useEffect(() => {
     authenticateUser();
   },[])
 
@@ -73,7 +75,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     router.push('/login'); // Redireccionamos al usuario a la página de inicio
   };
 
-  const contextValue = { isLoggedIn, isLoading, user, loginUser, logoutUser }; // Creamos un objeto con los valores del contexto
+  const contextValue = { isLoggedIn, isLoading, user, loginUser, logoutUser, authenticateUser }; // Creamos un objeto con los valores del contexto
 
   return (
     <AuthContext.Provider value={contextValue}> {/* Proveemos el contexto a los componentes hijos */}
