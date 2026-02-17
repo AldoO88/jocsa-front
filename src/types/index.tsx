@@ -69,3 +69,24 @@ export interface FiscalData {
   estado: string;
   zipCode: string;
 }
+
+export interface Product {
+  id: string;
+  name: string;
+  partNumber: string;
+  description: string;
+  price: number;
+  imageUrl: string;
+  brand: string;
+  rating: number;
+  reviews: number;
+  isHot?: boolean;
+  isBestseller?: boolean;
+  isFeatured?: boolean;
+  isNew?: boolean;
+}
+
+export interface Category {
+  name: string;
+  icon: string; // Puede ser un componente de Lucide-react o Heroicons
+}

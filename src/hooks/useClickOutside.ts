@@ -1,6 +1,8 @@
 // src/hooks/useClickOutside.ts
 import { useState, useEffect, useRef, RefObject } from 'react';
 
+// Este hook nos permite detectar clics fuera de un elemento específico, ideal para menús desplegables, modales, etc.
+
 // El hook recibe como argumento el estado inicial (si es visible o no)
 export function useClickOutside(initialIsVisible: boolean) {
   // Estado para controlar la visibilidad

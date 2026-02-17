@@ -1,13 +1,11 @@
 // src/app/layout.tsx
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { orbitron, inter } from './fonts';
 import "./globals.css";
 import Header from '@/components/layout/Header';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { AuthProvider } from '@/context/auth.context';
-
-const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'JOCSA Auto Partes',
@@ -20,10 +18,10 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="es">
+    <html lang="es" className={`${orbitron.variable} ${inter.variable}`}  >
       <body className={inter.className}>
         <AuthProvider>
-        <Header />
+        {/* <Header /> */}
         <Navbar />
         <main>{children}</main>
         <Footer />
