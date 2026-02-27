@@ -2,6 +2,7 @@
 import { NextApiRequest, NextApiResponse, NextApiHandler } from 'next';
 import jwt from 'jsonwebtoken';
 
+//interface para extender el tipo de solicitud (request) con la información del usuario decodificada del token JWT
 interface AuthenticatedRequest extends NextApiRequest {
   user: {
     userId: string;

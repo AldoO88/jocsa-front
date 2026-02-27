@@ -38,9 +38,9 @@ const Navbar = () => {
           <div className="relative w-20 h-20">
             <Image
                     src={logo}
-                    alt="JOCSA Auto Partes Logo"
-                    fill
-                    style={{ objectFit: "contain" }}
+                    alt="JOCSA Auto Partes Logo" 
+                    fill // Usamos fill para que la imagen ocupe todo el contenedor y se adapte al tamaño
+                    style={{ objectFit: "contain" }} // Ajustamos el tamaño del logo para que se vea bien en la barra de navegación
                     priority // Carga esta imagen primero, es importante para el LCP
                   />
             

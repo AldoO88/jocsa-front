@@ -7,8 +7,8 @@ import { useState, useEffect, useRef, RefObject } from 'react';
 export function useClickOutside(initialIsVisible: boolean) {
   // Estado para controlar la visibilidad
   const [isVisible, setIsVisible] = useState(initialIsVisible);
-  // Ref para adjuntar al elemento del DOM que queremos observar
-  const ref: RefObject<HTMLDivElement> = useRef(null);
+  // Ref para referenciar el elemento del cual queremos detectar clics fuera
+  const ref = useRef<HTMLDivElement>(null);
 
   // Lógica para detectar el clic fuera del elemento
   useEffect(() => {

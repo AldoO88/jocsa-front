@@ -23,4 +23,4 @@ const verifyHandler = async (req: AutenticatedRequest, res: any) => {
   }
 }; 
 
-export default jwtMiddleware(verifyHandler); // Exportamos el handler envuelto en el middleware de JWT para proteger la ruta
+export default jwtMiddleware(verifyHandler as any); // Exportamos el handler envuelto en el middleware de JWT para proteger la ruta, any es para evitar problemas de tipado con el middleware, ya que jwtMiddleware espera un NextApiHandler pero verifyHandler tiene un tipo de solicitud personalizado (AutenticatedRequest) que incluye la información del usuario decodificada del token. Al usar 'as any', estamos diciendo a TypeScript que ignore el tipo específico de verifyHandler y lo trate como cualquier función, lo que permite que jwtMiddleware lo envuelva sin problemas de tipado.

@@ -18,9 +18,10 @@ interface AuthContextType {
 }
 
 // 2. Creamos el contexto con un valor inicial
+// El valor inicial es undefined porque lo vamos a proporcionar en el AuthProvider, y el hook useAuth se encargará de verificar que el contexto esté disponible antes de usarlo
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// 3. Creamos el componente Proveedor
+// 3. Creamos el componente Proveedor del contexto que envolverá nuestra aplicación y proporcionará el estado de autenticación a todos los componentes hijos
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // Empieza en true para verificar el token al cargar
@@ -86,6 +87,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 }
   
 // 4. Creamos un hook personalizado para usar el contexto fácilmente
+// El hook useAuth verifica que el contexto esté disponible y lo devuelve, o lanza un error si se intenta usar fuera del proveedor
 export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext); // Usamos el contexto para obtener el valor del contexto
   if (!context) { // Si el contexto no existe, lanzamos un error

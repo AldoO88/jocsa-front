@@ -29,7 +29,7 @@ export function useProfile() {
   const [status, setStatus] = useState({ message: '', type: '' }); // Estado para manejar mensajes de estado (éxito o error)
 
   const fetchProfileData = useCallback(async (userIdOverride?: string) => { // Función para cargar los datos del perfil del usuario desde la API, evitando redefiniciones innecesarias, se usa useCallback para memorizar la función y evitar que se redefina en cada renderizado, el callback es como una función que recuerda su definición anterior a menos que cambien sus dependencias
-    const effectiveUserId = userIdOverride || user?.userId || user?._id; // Permite anular el userId para pruebas o casos especiales
+    const effectiveUserId = userIdOverride || user?.userId; // Permite anular el userId para pruebas o casos especiales
     if (effectiveUserId) {
       try {
         const response = await userService.getProfile(effectiveUserId);
@@ -58,7 +58,7 @@ export function useProfile() {
   }, [user]);
   // Inicializa el formulario cuando el usuario del contexto esté disponible
   useEffect(() => { // Se usa useEffect para ejecutar el efecto secundario de cargar los datos del perfil cuando el componente se monta o cuando cambia el userId, se agrega fetchProfileData a las dependencias para asegurar que la función actualizada se use cuando cambie
-    if (user?.userId || user?._id){ // Verifica que user y userId estén definidos antes de llamar a la función
+    if (user?.userId){ // Verifica que user y userId estén definidos antes de llamar a la función
       fetchProfileData(); // Llama a la función para cargar los datos del perfil
     }
   }, [fetchProfileData]); // El efecto depende de fetchProfileData, que a su vez depende de user?.userId
@@ -74,7 +74,7 @@ export function useProfile() {
   ) => {
     console.log('handleSubmit triggered with newImageUrl:', newImageUrl);
     if(e) e.preventDefault();
-    const effectiveUserId = userIdOverride || user?.userId || user?._id; // Permite anular el userId para pruebas o casos especiales
+    const effectiveUserId = userIdOverride || user?.userId; // Permite anular el userId para pruebas o casos especiales
     if (!effectiveUserId) return; // Guarda de seguridad
 
     setIsLoading(true);
@@ -83,7 +83,7 @@ export function useProfile() {
     try {
       
       // 2. Se actualizan los datos de texto, incluyendo la nueva URL si existe.
-      const updateData: Partial<UpdateUserParams> = { ...formData, imageUrl: newImageUrl || user.imageUrl };
+      const updateData: Partial<UpdateUserParams> = { ...formData, imageUrl: newImageUrl || user?.imageUrl };
       await userService.updateProfile(effectiveUserId, updateData);
       
       // 3. Se refresca el estado global del usuario y se muestra un mensaje de éxito.

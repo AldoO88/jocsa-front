@@ -18,8 +18,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
+    // orbitron para títulos y inter para texto general 
     <html lang="es" className={`${orbitron.variable} ${inter.variable}`}  >
+      {/* className con las variables de fuente para que estén disponibles en toda la app */}
       <body className={inter.className}>
+        {/* Envolvemos toda la aplicación con el AuthProvider para que el estado de autenticación esté disponible en todos los componentes hijos, incluyendo Navbar, Header, Footer y cualquier página o componente dentro de main */}
         <AuthProvider>
         {/* <Header /> */}
         <Navbar />
