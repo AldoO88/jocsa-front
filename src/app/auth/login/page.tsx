@@ -4,7 +4,7 @@
 import AuthCard from "@/components/auth/AuthCard";
 import LoginForm from "./LoginForm";
 
-export default function LoginPage() {
+const LoginPage = () => {
 
   return (
     <AuthCard>
@@ -14,6 +14,7 @@ export default function LoginPage() {
       </div>
       <LoginForm />
     </AuthCard>
-
   );
 }
+
+export default LoginPage;
