@@ -1,5 +1,5 @@
 // src/app/cuenta/layout.tsx
-import { AccountSidebar } from "@/components/account/AccountSidebar";
+import AccountSidebar from "@/components/account/AccountSidebar";
 
 export default function AccountLayout({
   children,
@@ -10,9 +10,11 @@ export default function AccountLayout({
     <div className="container mx-auto px-4 py-8">
       <div className="flex flex-col md:flex-row gap-8">
         <AccountSidebar />
-        <main className="flex-1 bg-white p-8 rounded-lg shadow-md">
-          {children}
-        </main>
+        <div className="container mx-auto flex flex-col lg:flex-row gap-8">
+          <main className="flex-1 space-y-8">
+            {children}
+          </main>
+        </div>
       </div>
     </div>
   );
