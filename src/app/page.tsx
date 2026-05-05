@@ -1,10 +1,10 @@
 // src/app/page.tsx
 import { mockProducts } from '@/lib/mock-data';
-import HeroCarousel from '@/components/ui/HeroCarousel';// <-- 1. Importa el nuevo componente
-import Hero from '@/components/home/Hero';
-import { ProductGrid } from '@/components/home/ProductGrid';
-import PopularCategories from '@/components/home/PopularCategories';
-import ContactBanner from '@/components/home/ContactBanner';
+import HeroCarousel from '@/shared/components/ui/HeroCarousel';// <-- 1. Importa el nuevo componente
+import Hero from '@/modules/catalog/components/discovery/Hero';
+import { ProductGrid } from '@/modules/catalog/components/product-list/ProductGrid';
+import PopularCategories from '@/modules/catalog/components/discovery/PopularCategories';
+import ContactBanner from '@/modules/catalog/components/discovery/ContactBanner';
 
 export default function HomePage() {
   const featuredProducts = mockProducts.filter(p => p.isFeatured);

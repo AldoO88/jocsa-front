@@ -1,8 +1,8 @@
 'use client'
 import { useState } from 'react';
 import { MapPin, Plus, X } from 'lucide-react';
-import AddressList from './_components/AddressList';
-import AddressForm from './_components/AddressForm';
+import AddressList from '../../../modules/account/components/addresses/AddressList';
+import AddressForm from '../../../modules/account/components/addresses/AddressForm';
 
 const AddressesPage = () => {
   const [showForm, setShowForm] = useState(false);

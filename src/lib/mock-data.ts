@@ -4,101 +4,151 @@ import { Product } from "@/types";
 export const mockProducts: Product[] = [
   {
     id: '1',
-    name: 'Kit de Balatas Cerámicas Delanteras',
+    name: 'Perilla Roja',
     partNumber: 'BOS-BC1451',
     price: 1250.99,
-    imageUrl: '/images/products/balata.png', // Coloca tus imágenes en public/images/products/
+    imageUrl: '/images/products/perilla/Autopartes-029.jpg', // Coloca tus imágenes en public/images/products/
     brand: 'Bosch',
     isFeatured: true,
     isBestseller: true,
     description: "",
     rating: 0,
-    reviews: 0
+    reviews: 0,
+    slug: 'kit-balatas-ceramicas-delanteras'
   },
   {
     id: '2',
     name: 'Amortiguador de Gas Trasero',
     partNumber: 'KYB-349108',
     price: 980.00,
-    imageUrl: '/images/products/amortiguador.jpg',
+    imageUrl: '/images/products/perilla2/Autopartes-001.jpg',
     brand: 'KYB',
     isFeatured: true,
     isNew: true,
     description: "",
     rating: 0,
-    reviews: 0
+    reviews: 0,
+    slug: 'amortiguador-gas-trasero'
   },
   {
     id: '3',
     name: 'Bomba de Agua con Junta',
     partNumber: 'GAT-45006',
     price: 1800.50,
-    imageUrl: '/images/products/bombadeagua.jpg',
+    imageUrl: '/images/products/perilla3/Autopartes-006.jpg',
     brand: 'Gates',
     isBestseller: true,
     description: "",
     rating: 4,
-    reviews: 10
+    reviews: 10,
+    slug: 'bomba-agua-con-junta'
   },
   {
     id: '4',
     name: 'Filtro de Aceite Sintético',
     partNumber: 'FRA-XG7317',
     price: 250.00,
-    imageUrl: '/images/products/filtroAceite.jpg',
+    imageUrl: '/images/products/perilla4/Autopartes-010.jpg',
     brand: 'Fram',
     isFeatured: true,
     isBestseller: true,
     description: "",
     rating: 0,
-    reviews: 0
+    reviews: 0,
+    slug: 'filtro-aceite-sintetico'
+
   },
   {
     id: '5',
     name: 'Kit de Afinación Completo Jetta A4',
     partNumber: 'MAN-AFIN-A4',
     price: 1100.00,
-    imageUrl: '/images/products/kitAfinacionA4.jpg',
+    imageUrl: '/images/products/perilla5/Autopartes-015.jpg',
     brand: 'Mann-Filter',
     isNew: true,
     description: "",
     rating: 0,
-    reviews: 0
+    reviews: 0,
+    slug: 'kit-afinacion-completo-jetta-a4'
   },
   {
     id: '6',
     name: 'Bujía de Iridio Laser',
     partNumber: 'NGK-IFR5E11',
     price: 350.00,
-    imageUrl: '/images/products/bujiaIridioLaser.jpg',
+    imageUrl: '/images/products/accesorios/Autopartes-020.jpg',
     brand: 'NGK',
     isNew: true,
     description: "",
     rating: 0,
-    reviews: 0
+    reviews: 0,
+    slug: 'bujia-iridio-laser'
   },
   {
     id: '7',
     name: 'Radiador de Aluminio',
     partNumber: 'TYC-13095',
     price: 2300.00,
-    imageUrl: '/images/products/radiador.jpg',
+    imageUrl: '/images/products/emblema/Autopartes-025.jpg',
     brand: 'TYC',
     isFeatured: true,
     description: "",
     rating: 0,
-    reviews: 0
+    reviews: 0,
+    slug: 'radiador-aluminio'
   },
   {
     id: '8',
     name: 'Sensor de Oxígeno (Sonda Lambda)',
     partNumber: 'DEN-234-4209',
     price: 1350.00,
-    imageUrl: '/images/products/sensorOxigeno.jpg',
+    imageUrl: '/images/products/emblema2/Autopartes-027.jpg',
     brand: 'Denso',
     isFeatured: true,
     description: "",
     rating: 0,
-    reviews: 0
+    reviews: 0,
+    slug: 'sensor-oxigeno-sonda-lambda'
+  },
+  {
+    id: '9',
+    name: 'Sensor de Oxígeno (Sonda Lambda)',
+    partNumber: 'DEN-234-4209',
+    price: 1350.00,
+    imageUrl: '/images/products/emblema3/Autopartes-041.jpg',
+    brand: 'Denso',
+    isFeatured: true,
+    description: "",
+    rating: 0,
+    reviews: 0,
+    slug: 'sensor-oxigeno-sonda-lambda'
+  },
+  {
+    id: '10',
+    name: 'Amortiguador de Gas Trasero',
+    partNumber: 'KYB-349108',
+    price: 980.00,
+    imageUrl: '/images/products/perilla6/Autopartes-033.jpg',
+    brand: 'KYB',
+    isFeatured: true,
+    isNew: true,
+    description: "",
+    rating: 0,
+    reviews: 0,
+    slug: 'amortiguador-gas-trasero'
+  },
+  {
+    id: '11',
+    name: 'Amortiguador de Gas Trasero',
+    partNumber: 'KYB-349108',
+    price: 980.00,
+    imageUrl: '/images/products/perilla7/Autopartes-037.jpg',
+    brand: 'KYB',
+    isFeatured: true,
+    isNew: true,
+    description: "",
+    rating: 0,
+    reviews: 0,
+    slug: 'amortiguador-gas-trasero'
   },
 ];

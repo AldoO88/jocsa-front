@@ -1,10 +1,10 @@
 //src/app/account/payments/page.tsx
 'use client'
 import { useState } from 'react';
-import AccountSidebar from '@/components/account/AccountSidebar';
+import AccountSidebar from '@/modules/account/components/shared/AccountSidebar';
 import { CreditCard, Plus, ShieldCheck, X } from 'lucide-react';
-import PaymentList from './_coponents/PaymentList';
-import PaymentForm from './_coponents/PaymentForm';
+import PaymentList from '../../../modules/account/components/payments/PaymentList';
+import PaymentForm from '../../../modules/account/components/payments/PaymentForm';
 
 const PaymentsPage = () => {
   const [showForm, setShowForm] = useState(false);

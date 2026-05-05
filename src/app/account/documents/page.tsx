@@ -1,7 +1,7 @@
 // src/app/cuenta/documentos/page.tsx
 "use client";
 
-import { useProtectedRoute } from "@/hooks/useProtectedRoute";
+import { useProtectedRoute } from "@/shared/hooks/useProtectedRoute";
 import { useState } from "react";
 
 export default function DocumentsPage() {

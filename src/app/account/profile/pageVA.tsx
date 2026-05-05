@@ -2,10 +2,10 @@
 "use client";
 
 import Image from 'next/image';
-import { useProfile } from '@/hooks/useProfile';
-import { useChangePassword } from '@/hooks/useUpdatePassword';
-import { useUploader } from '@/hooks/useUploader';
-import { useProtectedRoute } from '@/hooks/useProtectedRoute';
+import { useProfile } from '@/modules/account/hooks/useProfile';
+import { useChangePassword } from '@/modules/account/hooks/useUpdatePassword';
+import { useUploader } from '@/modules/account/hooks/useUploader';
+import { useProtectedRoute } from '@/shared/hooks/useProtectedRoute';
 import { useEffect, useRef, useState } from 'react';
 
 const ProfileSection = ({ title, children }: { title: string, children: React.ReactNode }) => (

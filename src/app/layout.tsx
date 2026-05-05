@@ -2,10 +2,10 @@
 import type { Metadata } from 'next';
 import { orbitron, inter } from './fonts';
 import "./globals.css";
-import Header from '@/components/layout/Header';
-import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
-import { AuthProvider } from '@/context/auth.context';
+import Header from '@/shared/components/layout/Header';
+import Navbar from '@/shared/components/layout/Navbar';
+import Footer from '@/shared/components/layout/Footer';
+import { AuthProvider } from '@/shared/context/auth.context';
 
 export const metadata: Metadata = {
   title: 'JOCSA Auto Partes',

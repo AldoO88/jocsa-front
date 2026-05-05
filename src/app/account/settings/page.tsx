@@ -1,9 +1,9 @@
 //src/app/account/settings/page.tsx
 'use client'
-import AccountSidebar from '@/components/account/AccountSidebar';
-import SecurityForm from './_components/SecurityForm';
-import NotificationSettings from './_components/NotificationSettings';
-import DangerZone from './_components/DangerZone';
+import AccountSidebar from '@/modules/account/components/shared/AccountSidebar';
+import SecurityForm from '../../../modules/account/components/settings/SecurityForm';
+import NotificationSettings from '../../../modules/account/components/settings/NotificationSettings';
+import DangerZone from '../../../modules/account/components/settings/DangerZone';
 
 const SettingsPagev= () => {
   return (

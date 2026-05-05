@@ -1,9 +1,9 @@
 //src/app/account/invoices/page.tsx
 'use client'
 
-import AccountSidebar from '@/components/account/AccountSidebar';
-import InvoiceList from './_components/InvoiceList';
-import InvoiceFilters from './_components/InvoiceFilters';
+import AccountSidebar from '@/modules/account/components/shared/AccountSidebar';
+import InvoiceList from '../../../modules/account/components/invoices/InvoiceList';
+import InvoiceFilters from '../../../modules/account/components/invoices/InvoiceFilters';
 
 const InvoicesPage = () => {
   return (

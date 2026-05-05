@@ -80,6 +80,7 @@ export interface Product {
   brand: string;
   rating: number;
   reviews: number;
+  slug: string;
   isHot?: boolean;
   isBestseller?: boolean;
   isFeatured?: boolean;

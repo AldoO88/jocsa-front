@@ -3,9 +3,9 @@
 'use client'
 import Link from 'next/link';
 import { ArrowLeft, ShieldCheck, Lock } from 'lucide-react';
-import PaymentSection from './_components/PaymentSection';
-import OrderSummary from './_components/OrderSummary';
-import ShippingSection from './_components/ShippingSection';
+import PaymentSection from '../../modules/checkout/components/PaymentSection';
+import OrderSummary from '../../modules/checkout/components/OrderSummary';
+import ShippingSection from '../../modules/checkout/components/ShippingSection';
 
 const CheckoutPage = () => {
   return (

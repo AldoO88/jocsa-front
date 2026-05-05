@@ -1,8 +1,8 @@
 //src/app/account/orders/page.tsx
 'use client'
 import { Package } from 'lucide-react';
-import OrderFilters from './_components/OrderFilters';
-import OrderList from './_components/OrderList';
+import OrderFilters from '../../../modules/account/components/orders/OrderFilters';
+import OrderList from '../../../modules/account/components/orders/OrderList';
 
 const OrdersPage = () => {
     return (

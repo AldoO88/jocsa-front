@@ -1,5 +1,5 @@
 // src/app/cuenta/layout.tsx
-import AccountSidebar from "@/components/account/AccountSidebar";
+import AccountSidebar from "@/modules/account/components/shared/AccountSidebar";
 
 export default function AccountLayout({
   children,

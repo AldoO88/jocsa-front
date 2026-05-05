@@ -1,14 +1,14 @@
 'use client';
 
 import { User, FileText, History, Save } from 'lucide-react';
-import { Input } from '@/components/ui/Input';
-import AccountSidebar from '@/components/account/AccountSidebar';
-import PersonalInfoForm from './_components/PersonalInfoForm';
-import OrdersOverview from '@/components/account/Sections/OrdersOverview';
-import PaymentsOverview from '@/components/account/Sections/PaymentsOverview';
-import InvoicesOverview from '@/components/account/Sections/InvoicesOverview';
-import FiscalOverview from '@/components/account/Sections/FiscalOverview';
-import AddressOverview from '@/components/account/Sections/AddressOvweview';
+import { Input } from '@/shared/components/ui/Input';
+import AccountSidebar from '@/modules/account/components/shared/AccountSidebar';
+import PersonalInfoForm from '../../../modules/account/components/profile/PersonalInfoForm';
+import OrdersOverview from '@/modules/account/components/orders/OrdersOverview';
+import PaymentsOverview from '@/modules/account/components/payments/PaymentsOverview';
+import InvoicesOverview from '@/modules/account/components/invoices/InvoicesOverview';
+import FiscalOverview from '@/modules/account/components/fiscal-information/FiscalOverview';
+import AddressOverview from '@/modules/account/components/addresses/AddressOvweview';
 
 const ProfilePage = () => {
   return (

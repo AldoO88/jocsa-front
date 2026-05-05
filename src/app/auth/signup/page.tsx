@@ -2,8 +2,8 @@
 "use client";
 
 import React from 'react';
-import AuthCard from '@/components/auth/AuthCard';
-import SignupForm from './SignupForm';
+import AuthCard from '@/modules/auth/components/AuthCard';
+import SignupForm from '../../../modules/auth/components/signup/SignupForm';
 
 
 export default function SignupPage() {

@@ -1,6 +1,6 @@
 import { Check, Package, Truck, ArrowRight, Download, ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
-import OrderDetails from './_components/OrderDetails';
+import OrderDetails from '../../../modules/checkout/components/sucess/OrderDetails';
 
 const SuccessPage = () => {
   return (

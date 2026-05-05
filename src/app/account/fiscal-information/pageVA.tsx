@@ -2,8 +2,8 @@
 "use client";
 
 import { UploadCloud, FileText } from 'lucide-react'; 
-import { useFiscalInfo } from '@/hooks/useFiscalInfo';
-import { useProtectedRoute } from '@/hooks/useProtectedRoute';
+import { useFiscalInfo } from '@/modules/account/hooks/useFiscalInfo';
+import { useProtectedRoute } from '@/shared/hooks/useProtectedRoute';
 
 
 export default function FiscalInfoPage() {

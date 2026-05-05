@@ -2,7 +2,7 @@
 'use client'
 
 import { ShieldCheck } from "lucide-react";
-import FiscalForm from "./_components/FiscalForm";
+import FiscalForm from "../../../modules/account/components/fiscal-information/FiscalForm";
 
 const FiscalInformationPage = () => {
     return (

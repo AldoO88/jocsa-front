@@ -1,8 +1,8 @@
 // src/app/login/page.tsx
 "use client";
 
-import AuthCard from "@/components/auth/AuthCard";
-import LoginForm from "./LoginForm";
+import AuthCard from "@/modules/auth/components/AuthCard";
+import LoginForm from "@/modules/auth/components/login/LoginForm";
 
 const LoginPage = () => {
 

@@ -1,8 +1,8 @@
 //src/app/cart/page.tsx
 
 'use client'
-import CartList from './_components/CartList';
-import CartSummary from './_components/CartSummary';
+import CartList from '../../modules/cart/components/CartList';
+import CartSummary from '../../modules/cart/components/CartSummary';
 import { ShoppingBag, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
