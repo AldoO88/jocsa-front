@@ -1,6 +1,7 @@
 // src/modules/catalog/components/product-detail/ProductGalleryOC.tsx
 'use client';
 import React, { useState } from 'react';
+import WatermarkedImage from './WatermarkedImage';
 
 const ProductGalleryOC: React.FC = () => {
   // URLs de imagen_7.png para fidelidad
@@ -17,7 +18,7 @@ const ProductGalleryOC: React.FC = () => {
     <div className="flex flex-col gap-4">
       {/* Imagen Principal Grande con fondo oscuro */}
       <div className="aspect-[1.12] w-full rounded-2xl overflow-hidden bg-transparent border border-[#E0E0E0] shadow-sm flex items-center justify-center p-6">
-        <img 
+        <WatermarkedImage
             src={selected} 
             alt="Producto" 
             className="max-w-full max-h-full object-contain" />
